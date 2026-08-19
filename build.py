@@ -338,17 +338,12 @@ def main():
 
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
 
-    # A custom domain needs a CNAME file, or Pages keeps serving *.github.io.
-    parsed = urlparse(str(cfg.get("card_url", "")))
-    custom = parsed.netloc and not parsed.netloc.endswith("github.io")
-    if custom:
-        (SITE / "CNAME").write_text(parsed.netloc + "\n", encoding="utf-8")
-        if parsed.path.strip("/"):
-            warnings.append(
-                f"card_url has the path /{parsed.path.strip('/')}/, but a GitHub Pages "
-                f"custom domain serves this repo at the domain root. The live URL is "
-                f"https://{parsed.netloc}/ unless you host it elsewhere."
-            )
+    # CNAME is opt-in only. Writing one claims the hostname for THIS repo and
+    # can break a site already served from that domain, so it is never derived
+    # from card_url. Set "pages_custom_domain" explicitly to emit one.
+    domain = str(cfg.get("pages_custom_domain", "")).strip()
+    if domain:
+        (SITE / "CNAME").write_text(domain + "\n", encoding="utf-8")
     else:
         (SITE / "CNAME").unlink(missing_ok=True)
 
