@@ -1,0 +1,64 @@
+{
+  "_comment": "Edit this file, then run: python build.py   Everything else regenerates.",
+
+  "slug": "kaixin",
+
+  "card_url": "https://kx15.github.io/card/",
+
+  "name": {
+    "given": "Kaixin",
+    "family": "Liang"
+  },
+
+  "photo": "headshot.png",
+
+  "role": "Senior Associate Director",
+  "org": "Institute of Policy Studies, NUS",
+  "department": "Communications & Public Affairs",
+
+  "timezone": {
+    "label": "SGT",
+    "utc_offset_hours": 8,
+    "hours_start": 9,
+    "hours_end": 18
+  },
+
+  "channels": [
+    {
+      "kind": "call",
+      "label": "Mobile",
+      "value": "+65 9452 4479",
+      "vcard_type": "CELL"
+    },
+    {
+      "kind": "call",
+      "label": "Office",
+      "value": "+65 6516 8380",
+      "vcard_type": "WORK"
+    },
+    {
+      "kind": "email",
+      "label": "Email",
+      "value": "kaixin@nus.edu.sg"
+    },
+    {
+      "kind": "linkedin",
+      "label": "LinkedIn",
+      "value": "linkedin.com/in/kaixin-liang"
+    },
+    {
+      "kind": "website",
+      "label": "Website",
+      "value": "ips.nus.edu.sg"
+    }
+  ],
+
+  "address": {
+    "street": "1C Cluny Road, House 5",
+    "locality": "Singapore",
+    "postcode": "259599",
+    "country": "Singapore"
+  },
+
+  "note": ""
+}
