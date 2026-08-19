@@ -122,12 +122,14 @@ def build_vcard(cfg, photo, *, minimal):
             lines.append(f"EMAIL;TYPE=INTERNET,WORK:{esc(value)}")
         elif kind == "website":
             lines.append(f"URL:{esc(with_scheme(value))}")
-        elif not minimal:
+        else:
             url = esc(with_scheme(value))
             # X-SOCIALPROFILE is an Apple extension: iOS files it under the
             # contact's social profiles, but Google Contacts drops it. The
-            # plain URL is the fallback every client renders.
-            lines.append(f"X-SOCIALPROFILE;TYPE={kind}:{url}")
+            # plain URL is the fallback every client renders, and it is the
+            # only form the QR payload can afford.
+            if not minimal:
+                lines.append(f"X-SOCIALPROFILE;TYPE={kind}:{url}")
             lines.append(f"URL:{url}")
 
     if not minimal:
