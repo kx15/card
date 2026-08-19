@@ -123,8 +123,12 @@ def build_vcard(cfg, photo, *, minimal):
         elif kind == "website":
             lines.append(f"URL:{esc(with_scheme(value))}")
         elif not minimal:
-            # iOS/Android file these under the contact's social profiles
-            lines.append(f"X-SOCIALPROFILE;TYPE={kind}:{esc(with_scheme(value))}")
+            url = esc(with_scheme(value))
+            # X-SOCIALPROFILE is an Apple extension: iOS files it under the
+            # contact's social profiles, but Google Contacts drops it. The
+            # plain URL is the fallback every client renders.
+            lines.append(f"X-SOCIALPROFILE;TYPE={kind}:{url}")
+            lines.append(f"URL:{url}")
 
     if not minimal:
         adr = cfg.get("address") or {}
