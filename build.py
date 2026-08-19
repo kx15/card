@@ -18,6 +18,7 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 import segno
 
@@ -336,6 +337,20 @@ def main():
     )
 
     (SITE / ".nojekyll").write_text("", encoding="utf-8")
+
+    # A custom domain needs a CNAME file, or Pages keeps serving *.github.io.
+    parsed = urlparse(str(cfg.get("card_url", "")))
+    custom = parsed.netloc and not parsed.netloc.endswith("github.io")
+    if custom:
+        (SITE / "CNAME").write_text(parsed.netloc + "\n", encoding="utf-8")
+        if parsed.path.strip("/"):
+            warnings.append(
+                f"card_url has the path /{parsed.path.strip('/')}/, but a GitHub Pages "
+                f"custom domain serves this repo at the domain root. The live URL is "
+                f"https://{parsed.netloc}/ unless you host it elsewhere."
+            )
+    else:
+        (SITE / "CNAME").unlink(missing_ok=True)
 
     page_kb = len((SITE / "index.html").read_bytes()) // 1024
     print(f"docs/index.html   {page_kb} KB, {'photo inlined' if photo else 'monogram placeholder'}")
